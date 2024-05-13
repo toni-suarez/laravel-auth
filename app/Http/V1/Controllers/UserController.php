@@ -4,6 +4,7 @@ namespace App\Http\V1\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class UserController
 {
@@ -16,15 +17,15 @@ class UserController
     public function register(Request $request)
     {
         $fields = $request->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'email' => ['required', 'email'],
-            'password' => ['required']
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()]
         ]);
 
         $user = User::create($fields);
         Auth::login($user);
 
-        return $user;
+        return response()->json(['message' => 'User registered successfully', 'user' => $user]);
     }
 
     /**
