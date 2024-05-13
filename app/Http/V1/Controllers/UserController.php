@@ -62,7 +62,6 @@ class UserController
         return response()->json(['message' => 'You have been logged out!']);
     }
 
-
     /**
      * Show the current user
      *
@@ -72,5 +71,24 @@ class UserController
     public function profile(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    /**
+     * Updates the profile
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Resources\Json
+     */
+    public function update(Request $request)
+    {
+        $user = $request->user();
+
+        $fields = $request->validate([
+            'name' => ['string', 'min:3', 'max:255']
+        ]);
+
+        $user->update($fields);
+        return response()->json(['message' => 'Your profile has been updated']);
+
     }
 }
