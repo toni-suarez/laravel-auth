@@ -2,6 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Bank;
+use App\Models\Hair;
+use App\Models\User;
+use App\Models\Crypto;
+use App\Models\Address;
+use App\Models\Company;
 use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,6 +18,7 @@ class UserProfileFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => fn () => User::factory()->create()->id,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'maiden_name' => $this->faker->lastName,
@@ -30,6 +37,11 @@ class UserProfileFactory extends Factory
             'ein' => $this->faker->ean13,
             'ssn' => $this->faker->ssn,
             'user_agent' => $this->faker->userAgent,
+            'address_id' => fn () => Address::factory()->create()->id,
+            'hair_id' => fn() => Hair::factory()->create()->id,
+            'company_id' => fn() => Company::factory()->create()->id,
+            'bank_id' => fn () => Bank::factory()->create()->id,
+            'crypto_id' => fn () => Crypto::factory()->create()->id,
         ];
     }
 }
