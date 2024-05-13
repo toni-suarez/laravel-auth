@@ -2,8 +2,10 @@
 namespace App\Http\V1\Controllers;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
 class UserController
@@ -24,6 +26,8 @@ class UserController
 
         $user = User::create($fields);
         Auth::login($user);
+
+        UserProfile::create(['user_id' => $user->id]);
 
         return response()->json(['message' => 'User registered successfully', 'user' => $user]);
     }
@@ -84,10 +88,32 @@ class UserController
         $user = $request->user();
 
         $fields = $request->validate([
-            'name' => ['string', 'min:3', 'max:255']
+            'first_name' => ['string', 'max:255'],
+            'last_name' => ['string', 'max:255'],
+            'maiden_name' => ['string', 'max:255'],
+            'age' => ['integer', 'min:0'],
+            'gender' => ['string', 'in:male,female'],
+            'phone' => ['string', 'max:255'],
+            'birth_date' => ['date'],
+            'image' => ['url:http,https'],
+            'height' => ['numeric', 'min:0', 'max:99999.99'],
+            'weight' => ['numeric', 'min:0', 'max:99999.99'],
+            'eye_color' => ['string', 'max:255'],
+            'domain' => ['string', 'max:255'],
+            'ip' => ['string'],
+            'mac_address' => ['string'],
+            'university' => ['string'],
+            'ein' => ['string', 'max:255'],
+            'ssn' => ['string', 'max:255'],
+            'user_agent' => ['string'],
         ]);
 
-        $user->update($fields);
+        // @todo queue oder concurrent
+        // Http::post('https://hkrexmrhido6bdtuu6rjahi5da0bfstk.lambda-url.eu-central-1.on.aws', [
+        //     'image_url' => $request->image
+        // ])->body();
+
+        $user->profile()->update(array_merge(['ip' => $request->ip()], $fields));
         return response()->json(['message' => 'Your profile has been updated']);
 
     }
