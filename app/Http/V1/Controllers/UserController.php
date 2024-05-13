@@ -64,4 +64,15 @@ class UserController
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'You have been logged out!']);
     }
+
+    /**
+     * Retrieve all user profiles
+     *
+     * @return \Illuminate\Http\Resources\Json
+     */
+    public function index()
+    {
+        return UserProfile::with(['hair', 'company', 'bank', 'crypto'])
+            ->paginate();
+    }
 }

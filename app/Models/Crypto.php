@@ -11,6 +11,8 @@ class Crypto extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['id', 'created_at', 'updated_at'];
+
     /**
      * @return BelongsTo
      */

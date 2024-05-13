@@ -41,7 +41,7 @@ class UserProfile extends Model
      */
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     /**
@@ -49,7 +49,7 @@ class UserProfile extends Model
      */
     public function bank()
     {
-        return $this->hasMany(Bank::class);
+        return $this->hasMany(Bank::class, 'id', 'bank_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class UserProfile extends Model
      */
     public function crypto()
     {
-        return $this->hasOne(Crypto::class);
+        return $this->hasOne(Crypto::class, 'id', 'crypto_id');
     }
 
     /**
@@ -65,6 +65,6 @@ class UserProfile extends Model
      */
     public function hair()
     {
-        return $this->hasOne(Hair::class);
+        return $this->hasOne(Hair::class, 'id', 'hair_id');
     }
 }

@@ -12,6 +12,8 @@ class Address extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['id', 'created_at', 'updated_at'];
+
     protected $casts = [
 	    'coordinates' => 'array'
     ];

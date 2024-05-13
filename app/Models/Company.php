@@ -11,6 +11,8 @@ class Company extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['id', 'address_id', 'created_at', 'updated_at'];
+
     /**
      * @return BelongsTo
      */

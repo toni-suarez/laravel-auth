@@ -2,8 +2,6 @@
 namespace App\Http\V1\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Client\Pool;
-use Illuminate\Support\Facades\Http;
 use App\Events\UserProfileImageProceed;
 
 class UserProfileController
