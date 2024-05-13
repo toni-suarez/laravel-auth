@@ -5,15 +5,19 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserProfile;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use App\Events\UserProfileImageProceed;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UserTest extends TestCase
+class UserProfileTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
 
     public static $API_PATH = '/api/v1';
+
 
     public function test_user_can_update_profile()
     {
@@ -33,5 +37,16 @@ class UserTest extends TestCase
 
         $this->assertDatabaseHas('user_profiles', $requestData);
         $this->assertEquals($requestData['first_name'], $user->profile->first_name);
+    }
+
+
+    public function test_it_dispatches_event_when_image_is_processed()
+    {
+        Event::fake();
+        $request = new Request(['image' => 'https://example.com/image.jpg']);
+
+        UserProfileImageProceed::dispatch($request);
+
+        Event::assertDispatched(UserProfileImageProceed::class);
     }
 }

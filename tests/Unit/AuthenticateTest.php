@@ -27,6 +27,7 @@ class AuthenticateTest extends TestCase
         $response->assertStatus(200);
     }
 
+
     public function test_user_can_login()
     {
         $user = User::factory()->create([
@@ -41,6 +42,7 @@ class AuthenticateTest extends TestCase
         $response = $this->postJson(self::$API_PATH . '/login', $loginData);
         $response->assertStatus(200);
     }
+
 
     public function test_user_can_logout()
     {

@@ -2,6 +2,9 @@
 namespace App\Http\V1\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Facades\Http;
+use App\Events\UserProfileImageProceed;
 
 class UserProfileController
 {
@@ -47,10 +50,7 @@ class UserProfileController
             'user_agent' => ['string'],
         ]);
 
-        // @todo queue oder concurrent
-        // Http::post('https://hkrexmrhido6bdtuu6rjahi5da0bfstk.lambda-url.eu-central-1.on.aws', [
-        //     'image_url' => $request->image
-        // ])->body();
+        UserProfileImageProceed::dispatch($request);
 
         $user->profile()->update(array_merge(['ip' => $request->ip()], $fields));
         return response()->json(['message' => 'Your profile has been updated']);
