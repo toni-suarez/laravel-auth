@@ -33,7 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (MethodNotAllowedHttpException $e, Request $request) {
             if ($request->is('api/*')) {
-                return response()->json(['message' => 'No allowed'], 405);
+                return response()->json(['message' => 'Not allowed'], 405);
             }
         });
     })->create();

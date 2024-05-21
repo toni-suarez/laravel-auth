@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'openai_key' => env('OPENAI_KEY', ''),
+
 ];
